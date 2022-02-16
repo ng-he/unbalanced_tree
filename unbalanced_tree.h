@@ -20,21 +20,19 @@ _STL_DISABLE_CLANG_WARNINGS
 #pragma push_macro("new")
 #undef new
 
-using namespace std;
-
 // TEMPLATE CLASS _Utree_branch_const_iterator
 template<class _Utree_iter>
 class _Utree_branch_const_iterator { // iterator cho cac nhanh cua moi nut
 public:
-    using iterator_category = random_access_iterator_tag;
+    using iterator_category = _STD random_access_iterator_tag;
 
     using _Nodeptr        = typename _Utree_iter::_Nodeptr;
-    using _Bran_iter      = typename vector<_Nodeptr>::const_iterator;
+    using _Bran_iter      = typename _STD vector<_Nodeptr>::const_iterator;
     using value_type      = typename _Bran_iter::value_type;
     using difference_type = typename _Bran_iter::difference_type;
     using pointer         = typename _Bran_iter::pointer;
     using reference       = typename _Bran_iter::reference;
-    using branch_size_t   = typename vector<_Nodeptr>::size_type;
+    using branch_size_t   = typename _STD vector<_Nodeptr>::size_type;
 
     _Utree_branch_const_iterator(_Utree_iter _Root_, _Bran_iter _Bran_) : _Root(_Root_), _Bran(_Bran_) {
         _Root_check();
@@ -184,15 +182,15 @@ template<class _Utree_iter>
 class _Utree_branch_iterator : public _Utree_branch_const_iterator<_Utree_iter> {
 public:
     using _Mybase           = _Utree_branch_const_iterator<_Utree_iter>;
-    using iterator_category = random_access_iterator_tag;
+    using iterator_category = _STD random_access_iterator_tag;
 
     using _Nodeptr        = typename _Utree_iter::_Nodeptr;
-    using _Bran_iter      = typename vector<_Nodeptr>::iterator;
+    using _Bran_iter      = typename _STD vector<_Nodeptr>::iterator;
     using value_type      = typename _Bran_iter::value_type;
     using difference_type = typename _Bran_iter::difference_type;
     using pointer         = typename _Bran_iter::pointer;
     using reference       = typename _Bran_iter::reference;
-    using branch_size_t   = typename vector<_Nodeptr>::size_type;
+    using branch_size_t   = typename _STD vector<_Nodeptr>::size_type;
 
     using _Mybase::_Mybase;
 
@@ -201,7 +199,7 @@ public:
     }
 
     _NODISCARD pointer operator->() const {
-        return _Const_cast(_Mybase::operator->());
+        return _STD _Const_cast(_Mybase::operator->());
     }
 
     _Utree_branch_iterator& operator++() {
@@ -275,10 +273,10 @@ _NODISCARD constexpr typename _Utree_branch_iterator<_Utree_iter>::pointer _Get_
 }
 
 // TEMPLATE CLASS _Utree_unchecked_const_iterator  
-template<class _MyUtree, class _Base = _Iterator_base0>
+template<class _MyUtree, class _Base = std::_Iterator_base0>
 class _Utree_unchecked_const_iterator : public _Base {
 public:
-	using iterator_category = bidirectional_iterator_tag;
+	using iterator_category = _STD bidirectional_iterator_tag;
 
     using _Nodeptr        = typename _MyUtree::_Nodeptr;
     using value_type      = typename _MyUtree::value_type;
@@ -454,7 +452,7 @@ template<class _MyUtree>
 class _Utree_unchecked_iterator : public _Utree_unchecked_const_iterator<_MyUtree> {
 public:
     using _Mybase           = _Utree_unchecked_const_iterator<_MyUtree>;
-    using iterator_category = bidirectional_iterator_tag;
+    using iterator_category = _STD bidirectional_iterator_tag;
 
     using _Nodeptr        = typename _MyUtree::_Nodeptr;
     using value_type      = typename _MyUtree::value_type;
@@ -567,10 +565,10 @@ public:
 
 // TEMPLATE CLASS _Utree_const_iterator
 template<class _MyUtree>
-class _Utree_const_iterator : public _Utree_unchecked_const_iterator<_MyUtree, _Iterator_base> {
+class _Utree_const_iterator : public _Utree_unchecked_const_iterator<_MyUtree, std::_Iterator_base> {
 public:
-    using _Mybase           = _Utree_unchecked_const_iterator<_MyUtree, _Iterator_base>;
-    using iterator_category = bidirectional_iterator_tag;
+    using _Mybase           = _Utree_unchecked_const_iterator<_MyUtree, std::_Iterator_base>;
+    using iterator_category = _STD bidirectional_iterator_tag;
 
     using _Nodeptr        = typename _MyUtree::_Nodeptr;
     using value_type      = typename _MyUtree::value_type;
@@ -598,7 +596,7 @@ public:
     }
 
     _NODISCARD pointer operator->() const {
-        return pointer_traits<pointer>::pointer_to(**this);
+        return _STD pointer_traits<pointer>::pointer_to(**this);
     }
 
     _Utree_const_iterator& operator++() {
@@ -660,9 +658,9 @@ public:
         _STL_ASSERT(_Mycont, "cannot dereference value-initialized unbalanced tree iterator"); 
 #endif // _ITERATOR_DEBUG_LEVEL == 2
 
-        auto _UFirst = _Get_unwrapped(_First);
-        auto _ULast  = _Get_unwrapped(_Last);
-        _Adl_verify_range(_UFirst, _ULast);
+        auto _UFirst = _STD _Get_unwrapped(_First);
+        auto _ULast  = _STD _Get_unwrapped(_Last);
+        _STD _Adl_verify_range(_UFirst, _ULast);
 
         while (_UFirst != _ULast) {
 #if _ITERATOR_DEBUG_LEVEL == 2
@@ -677,7 +675,7 @@ public:
         return *this;
     }
 
-    _Utree_const_iterator& to_branch(initializer_list<branch_size_t> _Iloc) {
+    _Utree_const_iterator& to_branch(_STD initializer_list<branch_size_t> _Iloc) {
         return to_branch(_Iloc.begin(), _Iloc.end());
     }
 
@@ -868,7 +866,7 @@ template<class _MyUtree>
 class _Utree_iterator : public _Utree_const_iterator<_MyUtree> {
 public:
     using _Mybase           = _Utree_const_iterator<_MyUtree>;
-    using iterator_category = bidirectional_iterator_tag;
+    using iterator_category = _STD bidirectional_iterator_tag;
 
     using _Nodeptr        = typename _MyUtree::_Nodeptr;
     using value_type      = typename _MyUtree::value_type;
@@ -889,7 +887,7 @@ public:
     }
 
     _NODISCARD pointer operator->() const {
-        return pointer_traits<pointer>::pointer_to(**this);
+        return _STD pointer_traits<pointer>::pointer_to(**this);
     }
 
     _Utree_iterator& operator++() {
@@ -914,13 +912,13 @@ public:
         return _Tmp;
     }
 
-    template<class _Iter, enable_if_t<is_integral_v<_Iter_value_t<_Iter>>, int> = 0>
+    template<class _Iter, _STD enable_if_t<_STD is_integral_v<_STD _Iter_value_t<_Iter>>, int> = 0>
     _Utree_iterator& to_branch(_Iter _First, _Iter _Last) {
         _Mybase::to_branch(_First, _Last);
         return *this;
     }
 
-    _Utree_iterator& to_branch(initializer_list<branch_size_t> _Iloc) {
+    _Utree_iterator& to_branch(_STD initializer_list<branch_size_t> _Iloc) {
         return to_branch(_Iloc.begin(), _Iloc.end());
     }
 
@@ -1085,7 +1083,7 @@ public:
 };
 
 template<class _Iter, class _MyUtree>
-_INLINE_VAR constexpr bool _Is_utree_iter = _Is_any_of_v<
+_INLINE_VAR constexpr bool _Is_utree_iter = _STD _Is_any_of_v<
     _Iter, _Utree_unchecked_const_iterator<_MyUtree>, _Utree_unchecked_iterator<_MyUtree>,
     _Utree_const_iterator<_MyUtree>, _Utree_iterator<_MyUtree>>;
 
@@ -1104,9 +1102,9 @@ struct _Utree_iter_types {
 template<class _Value_type, class _Voidptr>
 struct _Utree_node { // nut cua cay khong can bang
     using value_type    = _Value_type; 
-    using _Nodeptr      = _Rebind_pointer_t<_Voidptr, _Utree_node>;
-    using _Bran_cont    = vector<_Nodeptr>;
-    using branch_size_t = typename vector<_Nodeptr>::size_type;
+    using _Nodeptr      = _STD _Rebind_pointer_t<_Voidptr, _Utree_node>;
+    using _Bran_cont    = _STD vector<_Nodeptr>;
+    using branch_size_t = typename _STD vector<_Nodeptr>::size_type;
     _Nodeptr parent; // parent (tro den nut cha), tro lai ve chinh no neu la goc 
     _Bran_cont branches; // vector cua con tro nut de lien ket cac cay con, khong dung neu la leaf hoac end
                          // doi voi nut cha cua end: duoc coi la mot nut la nen co the coi begin() va end() cua branches la trung nhau
@@ -1118,10 +1116,10 @@ struct _Utree_node { // nut cua cay khong can bang
 
     template<class _Alloc>
     static _Nodeptr _Buyroot(_Alloc& _Al, _CRT_GUARDOVERFLOW branch_size_t _Bransize = 1) { // tao nut root
-        static_assert(is_same_v<typename _Alloc::value_type, _Utree_node>, "Bad _Buyroot call");
+        static_assert(_STD is_same_v<typename _Alloc::value_type, _Utree_node>, "Bad _Buyroot call");
         const auto _Pnode = _Al.allocate(1);
-        _Construct_in_place(_Pnode->parent, _Pnode);
-        _Construct_in_place(_Pnode->branches, _Bran_cont(_Bransize));
+        _STD _Construct_in_place(_Pnode->parent, _Pnode);
+        _STD _Construct_in_place(_Pnode->branches, _Bran_cont(_Bransize));
         for (_Nodeptr& _Bran : _Pnode->branches) {
             _Bran = NULL;
         }
@@ -1130,7 +1128,7 @@ struct _Utree_node { // nut cua cay khong can bang
 
     template<class _Alloc>
     static _Nodeptr _Buyend(_Alloc& _Al) { // tao nut end
-        static_assert(is_same_v<typename _Alloc::value_type, _Utree_node>, "Bad _Buyend call");
+        static_assert(_STD is_same_v<typename _Alloc::value_type, _Utree_node>, "Bad _Buyend call");
         const auto _Pnode = _Al.allocate(1);
         _Construct_in_place(_Pnode->parent, _Pnode);
         _Construct_in_place(_Pnode->branches, _Bran_cont(0));
@@ -1141,12 +1139,12 @@ struct _Utree_node { // nut cua cay khong can bang
     template<class _Alloc, class... _Valty>
     static _Nodeptr _Buynode(_Alloc& _Al, _Nodeptr _Myroot, _CRT_GUARDOVERFLOW branch_size_t _Bransize, _Valty&&... _Val) {
         // cap phat 1 nut moi 
-        static_assert(is_same_v<typename _Alloc::value_type, _Utree_node>, "Bad _Buynode call");
-        _Alloc_construct_ptr<_Alloc> _Newnode(_Al);
+        static_assert(_STD is_same_v<typename _Alloc::value_type, _Utree_node>, "Bad _Buynode call");
+        _STD _Alloc_construct_ptr<_Alloc> _Newnode(_Al);
         _Newnode._Allocate();
-        allocator_traits<_Alloc>::construct(_Al, _STD addressof(_Newnode._Ptr->_Myval), _STD forward<_Valty>(_Val)...);
-        _Construct_in_place(_Newnode._Ptr->parent, _Myroot);
-        _Construct_in_place(_Newnode._Ptr->branches, _Bran_cont(_Bransize));
+        _STD allocator_traits<_Alloc>::construct(_Al, _STD addressof(_Newnode._Ptr->_Myval), _STD forward<_Valty>(_Val)...);
+        _STD _Construct_in_place(_Newnode._Ptr->parent, _Myroot);
+        _STD _Construct_in_place(_Newnode._Ptr->branches, _Bran_cont(_Bransize));
         for (_Nodeptr& _Bran : _Newnode._Ptr->branches) {
             _Bran = NULL;
         }
@@ -1157,32 +1155,32 @@ struct _Utree_node { // nut cua cay khong can bang
     template<class _Alloc>
     static void _Freenode0(_Alloc& _Al, _Nodeptr _Ptr) noexcept {
         // giai phong nut
-        static_assert(is_same_v<typename _Alloc::value_type, _Utree_node>, "Bad _Freenode0 call");
+        static_assert(_STD is_same_v<typename _Alloc::value_type, _Utree_node>, "Bad _Freenode0 call");
         for (size_t _Idx = 0; _Idx < _Ptr->branches.size(); ++_Idx) {
             _Ptr->branches[_Idx] = NULL;
         }
-        _Destroy_in_place(_Ptr->parent);
-        _Destroy_in_place(_Ptr->branches);
-        allocator_traits<_Alloc>::deallocate(_Al, _Ptr, 1);
+        _STD _Destroy_in_place(_Ptr->parent);
+        _STD _Destroy_in_place(_Ptr->branches);
+        _STD allocator_traits<_Alloc>::deallocate(_Al, _Ptr, 1);
     }
 
     template <class _Alloc>
     static void _Freenode(_Alloc& _Al, _Nodeptr _Ptr) noexcept {
         // giai phong nut va gia tri
-        static_assert(is_same_v<typename _Alloc::value_type, _Utree_node>, "Bad _Freenode call");
-        allocator_traits<_Alloc>::destroy(_Al, _STD addressof(_Ptr->_Myval));
+        static_assert(_STD is_same_v<typename _Alloc::value_type, _Utree_node>, "Bad _Freenode call");
+        _STD allocator_traits<_Alloc>::destroy(_Al, _STD addressof(_Ptr->_Myval));
         _Freenode0(_Al, _Ptr);
     }
 };
 
 template<class _Ty>
-struct _Utree_simple_types : _Simple_types<_Ty> {
+struct _Utree_simple_types : _STD _Simple_types<_Ty> {
     using _Node    = _Utree_node<_Ty, void*>;
     using _Nodeptr = _Node*;
 };
 
 template<class _Val_types>
-class _Utree_val : public _Container_base {
+class _Utree_val : public _STD _Container_base {
 public:
     using _Nodeptr = typename _Val_types::_Nodeptr;
 
@@ -1193,7 +1191,7 @@ public:
     using const_pointer   = typename _Val_types::const_pointer;
     using reference       = value_type&;
     using const_reference = const value_type&;
-    using branch_size_t   = typename vector<_Nodeptr>::size_type;
+    using branch_size_t   = typename _STD vector<_Nodeptr>::size_type;
 
     using _Unchecked_const_iterator = _Utree_unchecked_const_iterator<_Utree_val>;
     using const_iterator            = _Utree_const_iterator<_Utree_val>;
@@ -1202,8 +1200,8 @@ public:
 
     void _Orphan_ptr(const _Nodeptr _Ptr) noexcept { // giai phong iterator 
 #if _ITERATOR_DEBUG_LEVEL == 2
-        _Lockit _Lock(_LOCK_DEBUG);
-        _Iterator_base12** _Pnext = &this->_Myproxy->_Myfirstiter;
+        _STD _Lockit _Lock(_LOCK_DEBUG);
+        _STD _Iterator_base12** _Pnext = &this->_Myproxy->_Myfirstiter;
         while (*_Pnext) {
             const auto _Pnextptr = static_cast<const_iterator&>(**_Pnext)._Ptr;
             if (_Pnextptr == _Myroot || _Pnextptr == _Myend || (_Ptr != nullptr && _Pnextptr != _Ptr)) {
@@ -1221,8 +1219,8 @@ public:
     void _Adopt_all(_Utree_val& _Other) noexcept {
         // chuyen tat ca iter cua _Other cho *this (tru _Other.end() va _Other.root())
 #if _ITERATOR_DEBUG_LEVEL == 2
-        _Lockit _Lock(_LOCK_DEBUG);
-        _Iterator_base12** _Pnext = &_Other._Myproxy->_Myfirstiter;
+        _STD _Lockit _Lock(_LOCK_DEBUG);
+        _STD _Iterator_base12** _Pnext = &_Other._Myproxy->_Myfirstiter;
         const auto _Myproxy       = this->_Myproxy;
         while (*_Pnext) {
             auto& _Iter = static_cast<const_iterator&>(**_Pnext);
@@ -1241,8 +1239,8 @@ public:
     void _Orphan_except_root_end() noexcept {
         // giai phong tat ca iter (tru root va end)
 #if _ITERATOR_DEBUG_LEVEL == 2
-        _Lockit _Lock(_LOCK_DEBUG);
-        _Iterator_base12** _Pnext = &this->_Myproxy->_Myfirstiter;
+        _STD _Lockit _Lock(_LOCK_DEBUG);
+        _STD _Iterator_base12** _Pnext = &this->_Myproxy->_Myfirstiter;
         while (*_Pnext) {
             auto& _Iter = static_cast<const_iterator&>(**_Pnext);
             if (_Iter._Ptr == _Myroot || _Iter._Ptr == _Myend) { 
@@ -1259,8 +1257,8 @@ public:
     void _Adopt_ptr(_Utree_val& _Other, const _Nodeptr _Pnode) noexcept {
         // chuyen iter thuoc _Other cho *this neu co con tro nut = _Pnode
 #if _ITERATOR_DEBUG_LEVEL == 2
-        _Lockit _Lock(_LOCK_DEBUG);
-        _Iterator_base12** _Pnext = &_Other._Myproxy->_Myfirstiter;
+        _STD _Lockit _Lock(_LOCK_DEBUG);
+        _STD _Iterator_base12** _Pnext = &_Other._Myproxy->_Myfirstiter;
         const auto _Myproxy       = this->_Myproxy;
         while (*_Pnext) {
             auto& _Iter = static_cast<const_iterator&>(**_Pnext);
@@ -1310,11 +1308,11 @@ public:
 template<class _Alnode>
 struct _Utree_node_emplace_op2 {
     // unbalanced tree emplace operation
-    using _Alnode_traits = allocator_traits<_Alnode>;
+    using _Alnode_traits = _STD allocator_traits<_Alnode>;
     using pointer        = typename _Alnode_traits::pointer;
     using size_type      = typename _Alnode_traits::size_type;
     using value_type     = typename _Alnode_traits::value_type;
-    using branch_size_t  = typename vector<pointer>::size_type;
+    using branch_size_t  = typename _STD vector<pointer>::size_type;
   
     template<class... _Valty>
     explicit _Utree_node_emplace_op2(_Alnode& _Al_, pointer _Myroot, _Valty&&... _Val) : _Al(_Al_) {
@@ -1366,7 +1364,7 @@ private:
 template<class _Alnode>
 struct _Utree_node_insert_op2 {
     // unbalanced tree insert operation
-    using _Alnode_traits = allocator_traits<_Alnode>;
+    using _Alnode_traits = _STD allocator_traits<_Alnode>;
     using pointer        = typename _Alnode_traits::pointer;
     using size_type      = typename _Alnode_traits::size_type;
     using value_type     = typename _Alnode_traits::value_type;
@@ -1439,9 +1437,9 @@ struct _Utree_node_insert_op2 {
         }
 
         pointer _Insert_parent = _Insert_before->parent;
-        _Construct_in_place(_Head->parent, _Insert_parent);
+        _STD _Construct_in_place(_Head->parent, _Insert_parent);
         _Insert_parent->branches[_Insert_before->branpos] = _Head;
-        _Construct_in_place(_Tail->branches[0], _Insert_before);   
+        _STD _Construct_in_place(_Tail->branches[0], _Insert_before);
         _Insert_before->parent = _Tail;
         _STD swap(_Head->branpos, _Insert_before->branpos);
         _Utree_data._Mysize += _Added;
@@ -1455,8 +1453,8 @@ struct _Utree_node_insert_op2 {
         }
 
         // neu sau khi lien ket ma khong dung, giai phong 
-        _Construct_in_place(_Head->parent, pointer{});
-        _Construct_in_place(_Tail->branches[0], pointer{});
+        _STD _Construct_in_place(_Head->parent, pointer{});
+        _STD _Construct_in_place(_Tail->branches[0], pointer{});
         pointer _Subject = _Head;
         while (_Subject) {
             value_type::_Freenode(_Al, _STD exchange(_Subject, _Subject->branches[0]));
@@ -1476,7 +1474,7 @@ private:
 template<class _Alnode>
 struct _Utree_graft_op {
     // unbalanced tree graft operation (ghep 1 nhanh moi cho nut)
-    using _Alnode_traits = allocator_traits<_Alnode>;
+    using _Alnode_traits = _STD allocator_traits<_Alnode>;
     using pointer        = typename _Alnode_traits::pointer;
     using size_type      = typename _Alnode_traits::size_type;
     using value_type     = typename _Alnode_traits::value_type;
@@ -1560,7 +1558,7 @@ struct _Utree_graft_op {
 
         _Leaf->branches.clear();
         _Root->branches.insert(_Root->branches.begin() + _Branpos, _Head);
-        _Construct_in_place(_Head->parent, _Root);
+        _STD _Construct_in_place(_Head->parent, _Root);
         _Head->branpos       = _Branpos;
         _Utree_data._Mysize += _Length;
         _Length              = 0;
@@ -1573,7 +1571,7 @@ struct _Utree_graft_op {
         }
 
         // neu sau khi lien ket ma khong dung, giai phong 
-        _Construct_in_place(_Head->parent, pointer{});
+        _STD _Construct_in_place(_Head->parent, pointer{});
         pointer _Subject = _Head;
         while (_Subject != _Leaf) {
             value_type::_Freenode(_Al, _STD exchange(_Subject, _Subject->branches[0]));
@@ -1593,21 +1591,21 @@ private:
 } 
 
 template<class _BranIter, class _Utree_iter>
-_INLINE_VAR constexpr bool _Is_bran_iter = _Is_any_of_v<
+_INLINE_VAR constexpr bool _Is_bran_iter = _STD _Is_any_of_v<
     _BranIter, _Utree_branch_const_iterator<_Utree_iter>, _Utree_branch_iterator<_Utree_iter>>;
 
 // CLASS TEMPLATE unbalanced_tree
-template<class _Ty, class _Alloc = allocator<_Ty>>
+template<class _Ty, class _Alloc = _STD allocator<_Ty>>
 class unbalanced_tree { // cay khong can bang
 private:
-    using _Alty          = _Rebind_alloc_t<_Alloc, _Ty>;
-    using _Alty_traits   = allocator_traits<_Alty>;
-    using _Node          = _Utree_node<_Ty, typename allocator_traits<_Alloc>::void_pointer>;
-    using _Alnode        = _Rebind_alloc_t<_Alloc, _Node>;
-    using _Alnode_traits = allocator_traits<_Alnode>;
+    using _Alty          = _STD _Rebind_alloc_t<_Alloc, _Ty>;
+    using _Alty_traits   = _STD allocator_traits<_Alty>;
+    using _Node          = _Utree_node<_Ty, typename _STD allocator_traits<_Alloc>::void_pointer>;
+    using _Alnode        = _STD _Rebind_alloc_t<_Alloc, _Node>;
+    using _Alnode_traits = _STD allocator_traits<_Alnode>;
     using _Nodeptr       = typename _Alnode_traits::pointer;
 
-    using _Val_types = conditional_t<_Is_simple_alloc_v<_Alnode>, _Utree_simple_types<_Ty>,
+    using _Val_types = _STD conditional_t<_STD _Is_simple_alloc_v<_Alnode>, _Utree_simple_types<_Ty>,
         _Utree_iter_types<_Ty, typename _Alty_traits::size_type, typename _Alty_traits::difference_type,
         typename _Alty_traits::pointer, typename _Alty_traits::const_pointer, _Ty&, const _Ty&, _Nodeptr>>;
 
@@ -1620,7 +1618,7 @@ public:
     using value_type      = _Ty;
     using allocator_type  = _Alloc;
     using size_type       = typename _Alty_traits::size_type;
-    using branch_size_t   = typename vector<_Nodeptr>::size_type;
+    using branch_size_t   = typename _STD vector<_Nodeptr>::size_type;
     using difference_type = typename _Alty_traits::difference_type;
     using pointer         = typename _Alty_traits::pointer;
     using const_pointer   = typename _Alty_traits::const_pointer;
@@ -1638,18 +1636,18 @@ public:
     struct copy_tag{};
     struct move_tag{};
 
-    unbalanced_tree() : _Mypair(_Zero_then_variadic_args_t()) {
+    unbalanced_tree() : _Mypair(_STD _Zero_then_variadic_args_t()) {
         _Alloc_sentinel_and_proxy();
     }
 
-    explicit unbalanced_tree(const _Alloc& _Al) : _Mypair(_One_then_variadic_args_t(), _Al) {
+    explicit unbalanced_tree(const _Alloc& _Al) : _Mypair(_STD _One_then_variadic_args_t(), _Al) {
         _Alloc_sentinel_and_proxy();
     }
 
 private:
     void _Copy_construct(const unbalanced_tree& _Right) {
         auto&& _Alproxy = _GET_PROXY_ALLOCATOR(_Alnode, _Getal());
-        _Container_proxy_ptr<_Alnode> _Proxy(_Alproxy, *_Get_scary());
+        _STD _Container_proxy_ptr<_Alnode> _Proxy(_Alproxy, *_Get_scary());
         auto& _Right_data     = *_Right._Get_scary();
         _Get_scary()->_Myroot = _Node::_Buyroot(_Getal(), _Right_data._Myroot->branches.size());
         _Get_scary()->_Myend  = _Node::_Buyend(_Getal());
@@ -1718,18 +1716,18 @@ private:
 
 public:
     unbalanced_tree(const unbalanced_tree& _Right)
-        : _Mypair(_One_then_variadic_args_t(), _Alnode_traits::select_on_container_copy_construction(_Right._Getal())) {
+        : _Mypair(_STD _One_then_variadic_args_t(), _Alnode_traits::select_on_container_copy_construction(_Right._Getal())) {
         _Copy_construct(_Right);
     }
 
-    unbalanced_tree(const unbalanced_tree& _Right, const _Alloc& _Al) : _Mypair(_One_then_variadic_args_t(), _Al) {
+    unbalanced_tree(const unbalanced_tree& _Right, const _Alloc& _Al) : _Mypair(_STD _One_then_variadic_args_t(), _Al) {
         _Copy_construct(_Right);
     }
 
 private:
     void _Different_allocator_move_construct(unbalanced_tree&& _Right) {
         auto&& _Alproxy = _GET_PROXY_ALLOCATOR(_Alnode, _Getal());
-        _Container_proxy_ptr<_Alnode> _Proxy(_Alproxy, *_Get_scary());
+        _STD _Container_proxy_ptr<_Alnode> _Proxy(_Alproxy, *_Get_scary());
         auto& _Right_data     = *_Right._Get_scary();
         _Get_scary()->_Myroot = _Node::_Buyroot(_Getal(), _Right_data._Myroot->branches.size());
         _Get_scary()->_Myend  = _Node::_Buyend(_Getal());
@@ -1738,12 +1736,12 @@ private:
     }
 
 public:
-    unbalanced_tree(unbalanced_tree&& _Right) noexcept : _Mypair(_One_then_variadic_args_t(), _STD move(_Right._Getal())) {
+    unbalanced_tree(unbalanced_tree&& _Right) noexcept : _Mypair(_STD _One_then_variadic_args_t(), _STD move(_Right._Getal())) {
         _Alloc_sentinel_and_proxy();
         _Swap_val(_Right);
     }
 
-    unbalanced_tree(unbalanced_tree&& _Right, const allocator_type& _Al) : _Mypair(_One_then_variadic_args_t(), _Al) {
+    unbalanced_tree(unbalanced_tree&& _Right, const allocator_type& _Al) : _Mypair(_STD _One_then_variadic_args_t(), _Al) {
         if
             _CONSTEXPR_IF(!_Alnode_traits::is_always_equal::value) {
             if (_Getal() != _Right._Getal()) {
@@ -1757,26 +1755,26 @@ public:
     }
 
 private:
-    void _Move_assign(unbalanced_tree& _Right, _Equal_allocators) noexcept {
+    void _Move_assign(unbalanced_tree& _Right, _STD _Equal_allocators) noexcept {
         clear();
-        _Pocma(_Getal(), _Right._Getal());
+        _STD _Pocma(_Getal(), _Right._Getal());
         _Swap_val(_Right);
     }
 
-    void _Move_assign(unbalanced_tree& _Right, _Propagate_allocators) {
+    void _Move_assign(unbalanced_tree& _Right, _STD _Propagate_allocators) {
         if (_Getal() == _Right._Getal()) {
-            _Move_assign(_Right, _Equal_allocators{});
+            _Move_assign(_Right, _STD _Equal_allocators{});
         } else {
             auto&& _Alproxy       = _GET_PROXY_ALLOCATOR(_Alnode, _Getal());
             auto&& _Right_alproxy = _GET_PROXY_ALLOCATOR(_Alnode, _Right._Getal());
-            _Container_proxy_ptr<_Alty> _Proxy(_Right_alproxy, _Leave_proxy_unbound{});
+            _STD _Container_proxy_ptr<_Alty> _Proxy(_Right_alproxy, _STD _Leave_proxy_unbound{});
             auto& _My_data      = *_Get_scary();
             auto& _Right_data   = *_Right._Get_scary();
             const auto _Newroot = _STD exchange(_Right_data._Myroot, _Node::_Buyroot(_Right._Getal()));
             const auto _Newend  = _STD exchange(_Right_data._Myend, _Node::_Buyend(_Right._Getal()));
             const auto _Newsize = _STD exchange(_Right_data._Mysize, size_type{0});
             _Tidy();
-            _Pocma(_Getal(), _Right._Getal());
+            _STD _Pocma(_Getal(), _Right._Getal());
             _My_data._Myroot                 = _Newroot;
             _My_data._Myend                  = _Newend;
             _My_data._Mysize                 = _Newsize;
@@ -1787,9 +1785,9 @@ private:
         }
     }
 
-    void _Move_assign(unbalanced_tree& _Right, _No_propagate_allocators) {
+    void _Move_assign(unbalanced_tree& _Right, _STD _No_propagate_allocators) {
         if (_Getal() == _Right._Getal()) {
-            _Move_assign(_Right, _Equal_allocators{});
+            _Move_assign(_Right, _STD _Equal_allocators{});
         } else {
             clear();
             _Copy(_Right, move_tag());
@@ -1798,9 +1796,9 @@ private:
 
 public:
     unbalanced_tree& operator=(unbalanced_tree&& _Right) noexcept(
-        noexcept(_Move_assign(_Right, _Choose_pocma<_Alnode>{}))) {
+        noexcept(_Move_assign(_Right, _STD _Choose_pocma<_Alnode>{}))) {
         if (this != _STD addressof(_Right)) {
-            _Move_assign(_Right, _Choose_pocma<_Alnode>{});
+            _Move_assign(_Right, _STD _Choose_pocma<_Alnode>{});
         }
 
         return *this;
@@ -1811,7 +1809,7 @@ private:
         auto& _My_data    = *_Get_scary();
         auto& _Right_data = *_Right._Get_scary();
         clear();
-        _Pocca(_Getal(), _Right._Getal());
+        _STD _Pocca(_Getal(), _Right._Getal());
         _My_data._Myroot->branches.resize(
             _Right_data._Myroot->branches.size());
         _Copy(_Right, copy_tag());
@@ -1830,7 +1828,7 @@ private:
             auto _Newroot            = _Node::_Buyroot(_Right_al_non_const, _Right._Get_scary()->_Myroot.branches.size());
             auto _Newend             = _Node::_Buyend(_Right_al_non_const);
             _Tidy();
-            _Pocca(_Al, _Right_al);
+            _STD _Pocca(_Al, _Right_al);
             _Get_scary()->_Myroot = _Newroot;
             _Get_scary()->_Myend  = _Newend;
             _Proxy._Bind(_Alproxy, _Get_scary());
@@ -1841,7 +1839,7 @@ private:
 public:
     unbalanced_tree& operator=(const unbalanced_tree& _Right) {
         if (this != _STD addressof(_Right)) {
-            _Copy_assign(_Right, _Choose_pocca<_Alnode>{});
+            _Copy_assign(_Right, _STD _Choose_pocca<_Alnode>{});
         }
 
         return *this;
@@ -1851,7 +1849,7 @@ public:
         _Tidy();
 #if _ITERATOR_DEBUG_LEVEL != 0 
         auto&& _Alproxy = _GET_PROXY_ALLOCATOR(_Alnode, _Getal());
-        _Delete_plain_internal(_Alproxy, _Mypair._Myval2._Myproxy);
+        _STD _Delete_plain_internal(_Alproxy, _Mypair._Myval2._Myproxy);
 #endif // _ITERATOR_DEBUG_LEVEL != 0
     }
 
@@ -1860,8 +1858,8 @@ private:
         auto& _My_data    = *_Get_scary();
         auto& _Right_data = *_Right._Get_scary();
         _My_data._Swap_proxy_and_iterators(_Right_data);
-        _Swap_adl(_My_data._Myroot, _Right_data._Myroot);
-        _Swap_adl(_My_data._Myend, _Right_data._Myend);
+        _STD _Swap_adl(_My_data._Myroot, _Right_data._Myroot);
+        _STD _Swap_adl(_My_data._Myend, _Right_data._Myend);
         _STD swap(_My_data._Mysize, _Right_data._Mysize);
     }
 
@@ -1887,7 +1885,7 @@ public:
             }
             _Local_transfer(_First, _Last, _Dest);
         } else {
-            auto _Other_cont = static_cast<_Scary_val*>(const_cast<_Container_base12*>(_To._Getcont()));
+            auto _Other_cont = static_cast<_Scary_val*>(const_cast<_STD _Container_base12*>(_To._Getcont()));
             if (_To._Ptr == _Other_cont->_Myend->parent) {
                 _STL_VERIFY(_To_pos == 0, "position to transfer branch to end's parent must be 0");
             }
@@ -1895,7 +1893,7 @@ public:
         }
     }
 
-    template<class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
+    template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
     void transfer(_BranIter _Branch, _BranIter _Dest) { // chuyen _Branch den [..., _Dest)
         auto _From = _Branch.get_root();
         auto _To   = _Dest.get_root();
@@ -1916,7 +1914,7 @@ public:
             }
             _Local_transfer(_Branch, _Branch + 1, _Dest);
         } else {
-            auto _Other_cont = static_cast<_Scary_val*>(const_cast<_Container_base12*>(_To._Getcont()));
+            auto _Other_cont = static_cast<_Scary_val*>(const_cast<_STD _Container_base12*>(_To._Getcont()));
             if (_To._Ptr == _Other_cont->_Myend->parent) {
 #if _ITERATOR_DEBUG_LEVEL == 2
                 _STL_VERIFY(_Dest._Unwrapped() == _To.bran_begin()._Unwrapped(),
@@ -1927,7 +1925,7 @@ public:
         }
     }
 
-    template<class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
+    template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
     void transfer(_BranIter _First, _BranIter _Last, _BranIter _Dest) { // chuyen cac nhanh trong [_First, _Last) den _Dest
         auto _From = _First.get_root();
         auto _To   = _Dest.get_root();
@@ -1949,7 +1947,7 @@ public:
             _Local_transfer(_First, _Last, _Dest);
         }
         else {
-            auto _Other_cont = static_cast<_Scary_val*>(const_cast<_Container_base12*>(_To._Getcont()));
+            auto _Other_cont = static_cast<_Scary_val*>(const_cast<_STD _Container_base12*>(_To._Getcont()));
             if (_To._Ptr == _Other_cont->_Myend->parent) {
 #if _ITERATOR_DEBUG_LEVEL == 2
                 _STL_VERIFY(_Dest._Unwrapped() == _To.bran_begin()._Unwrapped(),
@@ -1963,7 +1961,7 @@ public:
 private:
     template<class _BranIter>
     void _Local_transfer(_BranIter _First, _BranIter _Last, _BranIter _Dest) {
-        _Adl_verify_range(_First, _Last);
+        _STD _Adl_verify_range(_First, _Last);
         _Nodeptr _From = _First.get_root()._Ptr;
         _Nodeptr _To   = _Dest.get_root()._Ptr;
         auto _UFirst   = _First._Unwrapped();
@@ -1977,8 +1975,8 @@ private:
             if (_UFirst <= _UDest && _UDest <= _ULast) {
                 return;
             } else if (_UDest < _UFirst) {  // chuyen cac nhanh trong [_First, _Last) den [_Dest, ...)
-                _STL_VERIFY(_UDest >= _Get_unwrapped(_From->branches.begin()), "_Dest outside range");
-                vector<_Nodeptr> _Branptr;
+                _STL_VERIFY(_UDest >= _STD _Get_unwrapped(_From->branches.begin()), "_Dest outside range");
+                _STD vector<_Nodeptr> _Branptr;
                 auto _UNext = _UDest;
                 while (_UNext != _UFirst) {
                     _Branptr.push_back(*_UNext);
@@ -1991,8 +1989,8 @@ private:
                     ++_UNext;
                 }
                 _UNext = _UDest;
-                auto _BFirst = _Get_unwrapped(_Branptr.begin());
-                auto _BLast  = _Get_unwrapped(_Branptr.end());
+                auto _BFirst = _STD _Get_unwrapped(_Branptr.begin());
+                auto _BLast  = _STD _Get_unwrapped(_Branptr.end());
                 while (_BFirst != _BLast) {
                     *_UNext = *_BFirst;
                     *_BFirst = NULL;
@@ -2002,8 +2000,8 @@ private:
                 _Get_scary()->_Branch_change_pos(_From);
                 _Get_scary()->_To_new_end();
             } else { // chuyen cac nhanh trong [_First, _Last) den [..., _Dest)
-                _STL_VERIFY(_UDest <= _Get_unwrapped(_From->branches.end()), "_Dest outside range");
-                vector<_Nodeptr> _Branptr;
+                _STL_VERIFY(_UDest <= _STD _Get_unwrapped(_From->branches.end()), "_Dest outside range");
+                _STD vector<_Nodeptr> _Branptr;
                 auto _UPrev = _UDest;
                 while (_UPrev != _ULast) {
                     _Branptr.push_back(*--_UPrev);
@@ -2012,8 +2010,8 @@ private:
                 while (_UPrev != _UFirst) {
                     *--_UDest = *--_UPrev;
                 }
-                auto _BFirst = _Get_unwrapped(_Branptr.begin());
-                auto _BLast  = _Get_unwrapped(_Branptr.end());
+                auto _BFirst = _STD _Get_unwrapped(_Branptr.begin());
+                auto _BLast  = _STD _Get_unwrapped(_Branptr.end());
                 while (_UDest != _UFirst) {
                     *--_UDest = *_BFirst;
                     ++_BFirst;
@@ -2023,8 +2021,8 @@ private:
             }
         } else { // chuyen cac nhanh trong [_First, _Last) den _Dest cua mot nut khac
             _STL_VERIFY(_To != _Get_scary()->_Myend, "cannot transfer branch to end");
-            branch_size_t _Upper = _UFirst - _Get_unwrapped(_From->branches.begin());
-            branch_size_t _Lower = _ULast - _Get_unwrapped(_From->branches.begin());
+            branch_size_t _Upper = _UFirst - _STD _Get_unwrapped(_From->branches.begin());
+            branch_size_t _Lower = _ULast - _STD _Get_unwrapped(_From->branches.begin());
             _STL_VERIFY(!_In_bran(_From, _To, _Upper, _Lower), "where to receive branches is in transferred branches");
             if (_To == _Get_scary()->_Myend->parent) {
                 _To->branches[0] = NULL;
@@ -2032,10 +2030,10 @@ private:
                 _Get_scary()->_Myend->parent = NULL;
             }
 
-            branch_size_t _Inserted_pos  = _UDest - _Get_unwrapped(_To->branches.begin());
+            branch_size_t _Inserted_pos  = _UDest - _STD _Get_unwrapped(_To->branches.begin());
             branch_size_t _Transfer_size = static_cast<branch_size_t>(_ULast - _UFirst);
             _To->branches.insert(_To->branches.begin() + _Inserted_pos, _Transfer_size, nullptr);
-            auto _Transferred = _Get_unwrapped(_To->branches.begin()) + _Inserted_pos;
+            auto _Transferred = _STD _Get_unwrapped(_To->branches.begin()) + _Inserted_pos;
 
             while (_UFirst != _ULast) {
                 *_Transferred      = *_UFirst;
@@ -2055,7 +2053,7 @@ private:
     template<class _BranIter>
     void _Transfer_to_other_tree(_BranIter _First, _BranIter _Last, _BranIter _Dest, _Scary_val& _Other) {
         // chuyen cac nhanh trong [_First, _Last) den _Dest cua mot cay khac
-        _Adl_verify_range(_First, _Last);
+        _STD _Adl_verify_range(_First, _Last);
         _Nodeptr _From = _First.get_root()._Ptr;
         _Nodeptr _To   = _Dest.get_root()._Ptr;
         auto _UFirst   = _First._Unwrapped();
@@ -2100,10 +2098,10 @@ private:
         _Next._Orphan_me();
         _Other._Adopt_ptr(*_Get_scary(), _Firsthead);
 
-        branch_size_t _Inserted_pos  = _UDest - _Get_unwrapped(_To->branches.begin());
+        branch_size_t _Inserted_pos  = _UDest - _STD _Get_unwrapped(_To->branches.begin());
         branch_size_t _Transfer_size = static_cast<branch_size_t>(_ULast - _UFirst);
         _To->branches.insert(_To->branches.begin() + _Inserted_pos, _Transfer_size, nullptr);
-        auto _Transferred = _Get_unwrapped(_To->branches.begin()) + _Inserted_pos;
+        auto _Transferred = _STD _Get_unwrapped(_To->branches.begin()) + _Inserted_pos;
 
         while (_UFirst != _ULast) {
             *_Transferred      = *_UFirst;
@@ -2164,12 +2162,12 @@ public:
         return _Make_iter(_Op._Attach_before(*_Get_scary(), _Where._Ptr));
     }
 
-    iterator insert(const_iterator _Where, initializer_list<value_type> _Ilist) {
+    iterator insert(const_iterator _Where, _STD initializer_list<value_type> _Ilist) {
         // chen danh sach khoi tao tai _Where
         return insert(_Where, _Ilist.begin(), _Ilist.end());
     }
 
-    template<class _Iter, enable_if_t<_Is_iterator_v<_Iter> && is_same_v<_Iter_value_t<_Iter>, value_type>, int> = 0>
+    template<class _Iter, _STD enable_if_t<_STD _Is_iterator_v<_Iter> && _STD is_same_v<_STD _Iter_value_t<_Iter>, value_type>, int> = 0>
     iterator insert(const_iterator _Where, _Iter _First, _Iter _Last) {
         // chen [_First, _Last) tai _Where
 #if _ITERATOR_DEBUG_LEVEL == 2
@@ -2177,7 +2175,7 @@ public:
         _STL_VERIFY(_Where._Ptr != _Get_scary()->_Myroot, "cannot insert before root");
 #endif // _ITERATOR_DEBUG_LEVEL == 2
 
-        _Adl_verify_range(_First, _Last);
+        _STD _Adl_verify_range(_First, _Last);
         _Utree_node_insert_op2<_Alnode> _Op(_Getal());
         _Op._Append_range_unchecked(_Get_scary()->_Myroot, _First, _Last);
         return _Make_iter(_Op._Attach_before(*_Get_scary(), _Where._Ptr));
@@ -2247,7 +2245,7 @@ public:
         return _Make_iter(_Result);
     }
 
-    template<class _Iter, enable_if_t<_Is_iterator_v<_Iter> && is_same_v<_Iter_value_t<_Iter>, value_type>, int> = 0>
+    template<class _Iter, _STD  enable_if_t<_STD _Is_iterator_v<_Iter> && _STD is_same_v<_STD _Iter_value_t<_Iter>, value_type>, int> = 0>
     iterator graft(const_iterator _Root, branch_size_t _Branpos, _Iter _First, _Iter _Last) {
         // tao mot nhanh (tu [_First, _Last)) cho _Root tai _Branpos
 #if _ITERATOR_DEBUG_LEVEL == 2
@@ -2259,7 +2257,7 @@ public:
         if (_Root._Ptr == _Get_scary()->_Myend->parent) {
             _STL_VERIFY(_Branpos == 0, "graft position for end's parent must be 0");
         }
-        _Adl_verify_range(_First, _Last);
+        _STD _Adl_verify_range(_First, _Last);
         _Utree_graft_op<_Alnode> _Op(_Getal());
         _Op._Append_range_unchecked(_Get_scary()->_Myroot, _First, _Last);
         _Nodeptr _Result = _Op._Graft_branch(*_Get_scary(), _Root._Ptr, _Branpos);
@@ -2272,17 +2270,17 @@ public:
         return _Make_iter(_Result);
     }
 
-    iterator graft(const_iterator _Root, branch_size_t _Branpos, initializer_list<value_type> _Ilist) {
+    iterator graft(const_iterator _Root, branch_size_t _Branpos, _STD initializer_list<value_type> _Ilist) {
         // tao mot nhanh moi tu danh sach khoi tao cho _Root tai _Branbos
         return graft(_Root, _Branpos, _Ilist.begin(), _Ilist.end());
     }
 
-    template<class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
+    template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
     iterator graft(_BranIter _Branch, value_type&& _Val) { // tao mot nhanh moi = branch_iterator
         return emplace_graft(_Branch, _STD move(_Val));
     }
 
-    template<class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
+    template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
     iterator graft(_BranIter _Branch, const value_type& _Val) { // tao mot nhanh moi = branch_iterator
         auto _Myroot           = static_cast<const_iterator>(_Branch.get_root());
         branch_size_t _Branpos = static_cast<branch_size_t>(
@@ -2298,8 +2296,8 @@ public:
         return graft(_Myroot, _Branpos, _Count, _Val);
     }
 
-    template<class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0,
-        class _Iter, enable_if_t<_Is_iterator_v<_Iter> && is_same_v<_Iter_value_t<_Iter>, value_type>, int> = 0>
+    template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0,
+        class _Iter, _STD  enable_if_t<_STD _Is_iterator_v<_Iter> && _STD is_same_v<_Iter_value_t<_Iter>, value_type>, int> = 0>
     iterator graft(_BranIter _Branch, _Iter _First, _Iter _Last) { // tao mot nhanh [_First, _Last) moi = branch_iterator
         auto _Myroot           = static_cast<const_iterator>(_Branch.get_root());
         branch_size_t _Branpos = static_cast<branch_size_t>(
@@ -2307,8 +2305,8 @@ public:
         return graft(_Myroot, _Branpos, _First, _Last);
     }
 
-    template<class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
-    iterator graft(_BranIter _Branch, initializer_list<value_type> _Ilist) { // tao mot nhanh moi tu danh sach khoi tao = branch_iterator
+    template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
+    iterator graft(_BranIter _Branch, _STD initializer_list<value_type> _Ilist) { // tao mot nhanh moi tu danh sach khoi tao = branch_iterator
         auto _Myroot           = static_cast<const_iterator>(_Branch.get_root());
         branch_size_t _Branpos = static_cast<branch_size_t>(
             _Branch.get_branch() - static_cast<typename _BranIter::_Bran_iter>(_Myroot._Ptr->branches.begin()));
@@ -2329,7 +2327,7 @@ public:
         return _Make_iter(_Emplace_graft(_Root._Ptr, _Branpos, _STD forward<_Valty>(_Val)...));
     }
 
-    template<class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0, class... _Valty>
+    template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0, class... _Valty>
     iterator emplace_graft(_BranIter _Branch, _Valty&&... _Val) { // tao mot nhanh moi = branch_iterator
         auto _Myroot           = static_cast<const_iterator>(_Branch.get_root());
         branch_size_t _Branpos = static_cast<branch_size_t>(
@@ -2341,7 +2339,7 @@ public:
     _Nodeptr _Emplace_graft(const _Nodeptr _Root, branch_size_t _Branpos, _Valty&&... _Val) { // tao mot nhanh moi cho _Root tai _Branpos
         size_type& _Mysize = _Get_scary()->_Mysize; 
         if (_Mysize == max_size()) {
-            _Xlength_error("unbalanced tree is too large");
+            _STD _Xlength_error("unbalanced tree is too large");
         }
 
         _Utree_node_emplace_op2<_Alnode> _Op(_Getal(), _Get_scary()->_Myroot, _STD forward<_Valty>(_Val)...);
@@ -2356,7 +2354,7 @@ public:
     }
 
     iterator multiple_graft( // ghep nhieu danh sach khoi tao vao _Root tai _Branpos
-        const_iterator _Root, branch_size_t _Branpos, initializer_list<initializer_list<value_type>> _Branlist) {
+        const_iterator _Root, branch_size_t _Branpos, _STD initializer_list<_STD initializer_list<value_type>> _Branlist) {
 #if _ITERATOR_DEBUG_LEVEL == 2
         _STL_VERIFY(_Root._Getcont() == _Get_scary(), "unbalanced tree multiple graft iterator outside range");
         _STL_VERIFY(_Root._Ptr != _Get_scary()->_Myend, "cannot graft branch to end");
@@ -2381,16 +2379,16 @@ public:
         return _Make_iter(_Root._Ptr->branches[_Branpos]);
     }
 
-    template<class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
-    iterator multiple_graft(_BranIter _Branch, initializer_list<initializer_list<value_type>> _Branlist)  { // ghep nhieu danh sach khoi tao = branch_iterator
+    template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
+    iterator multiple_graft(_BranIter _Branch, _STD initializer_list<_STD initializer_list<value_type>> _Branlist)  { // ghep nhieu danh sach khoi tao = branch_iterator
         auto _Myroot           = static_cast<const_iterator>(_Branch.get_root());
         branch_size_t _Branpos = static_cast<branch_size_t>(
             _Branch.get_branch() - static_cast<typename _BranIter::_Bran_iter>(_Myroot._Ptr->branches.begin()));
         return multiple_graft(_Myroot, _Branpos, _Branlist);
     }
 
-    template<class _Iter, enable_if_t<_Is_iterator_v<_Iter>&& is_same_v<_Iter_value_t<_Iter>, value_type>, int> = 0>
-    iterator multiple_graft(const_iterator _Root, branch_size_t _Branpos, initializer_list<pair<_Iter, _Iter>> _Iterlist) {
+    template<class _Iter, _STD enable_if_t<_STD _Is_iterator_v<_Iter> && _STD is_same_v<_STD _Iter_value_t<_Iter>, value_type>, int> = 0>
+    iterator multiple_graft(const_iterator _Root, branch_size_t _Branpos, _STD initializer_list<_STD pair<_Iter, _Iter>> _Iterlist) {
         // ghep nhieu nhanh vao _Root tai _Branpos
 #if _ITERATOR_DEBUG_LEVEL == 2
         _STL_VERIFY(_Root._Getcont() == _Get_scary(), "unbalanced tree multiple graft iterator outside range");
@@ -2421,8 +2419,8 @@ public:
         return _Make_iter(_Root._Ptr->branches[_Branpos]);
     }
 
-    template<class _Iter, class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
-    iterator multiple_graft(_BranIter _Branch, initializer_list<pair<_Iter, _Iter>> _Iterlist) {
+    template<class _Iter, class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
+    iterator multiple_graft(_BranIter _Branch, _STD initializer_list<_STD pair<_Iter, _Iter>> _Iterlist) {
         // ghep nhieu nhanh = branch_iterator
         auto _Myroot           = static_cast<const_iterator>(_Branch.get_root());
         branch_size_t _Branpos = static_cast<branch_size_t>(
@@ -2504,7 +2502,7 @@ public:
         return _Make_iter(_Tree_graft(_Root._Ptr, _Branpos, _Other));
     }
 
-    template<class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
+    template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
     iterator graft(_BranIter _Branch, unbalanced_tree&& _Other) {
         auto _Myroot           = static_cast<const_iterator>(_Branch.get_root());
         branch_size_t _Branpos = static_cast<branch_size_t>(
@@ -2591,7 +2589,7 @@ public:
         _Unchecked_cut(_Root._Ptr, _Branpos);
     }
 
-    template<class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
+    template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
     void cut(_BranIter _Branch) { // xoa mot nhanh(cay con) = brnch_iterator
         auto _Myroot           = static_cast<const_iterator>(_Branch.get_root());
         branch_size_t _Branpos = static_cast<branch_size_t>(
@@ -2599,7 +2597,7 @@ public:
         cut(_Myroot, _Branpos);
     }
 
-    template<class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
+    template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
     void cut(_BranIter _First, _BranIter _Last) { // xoa cac nhanh trong [_First, _Last) cua mot nut
         auto _Myroot = static_cast<const_iterator>(_First.get_root());
         if (_Myroot.bran_size() == 0 || _Myroot._Ptr == _Get_scary()->_Myend->parent) {
@@ -2610,7 +2608,7 @@ public:
         _STL_VERIFY(_Myroot._Getcont() == _Get_scary(), "branches to cut is out of range");
 #endif // _ITERATOR_DEBUG_LEVEL == 2
 
-        _Adl_verify_range(_First, _Last);
+        _STD _Adl_verify_range(_First, _Last);
         _Unchecked_range_cut(_First, _Last);
     }          
 
@@ -2627,7 +2625,7 @@ public:
         _STL_VERIFY(_Count < 2, "position list must be unique"); \
     }   
 
-    void multiple_cut(const_iterator _Root, initializer_list<branch_size_t> _Poslist) {
+    void multiple_cut(const_iterator _Root, _STD initializer_list<branch_size_t> _Poslist) {
        // xoa nhieu nhanh = danh sach vi tri
         if ((_Root.bran_size() == 0 || _Root._Ptr == _Get_scary()->_Myend->parent) && _Poslist.size() == 0) {
             return;
@@ -2640,7 +2638,7 @@ public:
 #endif // _ITERATOR_DEBUG_LEVEL == 2
      
         _UNIQUE_POS_CHECK(branch_size_t, _Poslist);
-        vector<branch_size_t> _Pos(_Poslist);
+        _STD vector<branch_size_t> _Pos(_Poslist);
         auto _First = _Pos.begin();
         auto _Last  = _Pos.end();
         while (_First != _Last) {
@@ -2782,7 +2780,7 @@ public:
 #endif // _ITERATOR_DEBUG_LEVEL == 2
             _Local_swap(_First1, _Last1, _First2);
         } else {
-            auto _Other_cont = static_cast<_Scary_val*>(const_cast<_Container_base12*>(_Where2._Getcont()));
+            auto _Other_cont = static_cast<_Scary_val*>(const_cast<_STD _Container_base12*>(_Where2._Getcont()));
             if (_Where2.bran_size() == 0 || _Where2._Ptr == _Other_cont->_Myend->parent) {
                 return;
             }
@@ -2790,7 +2788,7 @@ public:
         }
     }
 
-    template<class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
+    template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
     void swap_bran(_BranIter _Bran1, _BranIter _Bran2) {
         // trao doi nhanh = branch_iterator
         auto _My_root    = _Bran1.get_root();
@@ -2824,7 +2822,7 @@ public:
 
             _Local_swap(_First1, _Last1, _First2);
         } else {
-            auto _Other_cont = static_cast<_Scary_val*>(const_cast<_Container_base12*>(_Other_root._Getcont()));
+            auto _Other_cont = static_cast<_Scary_val*>(const_cast<_STD _Container_base12*>(_Other_root._Getcont()));
             if (_Other_root.bran_size() == 0 || _Other_root._Ptr == _Other_cont->_Myend->parent) {
                 return;
             }
@@ -2832,7 +2830,7 @@ public:
         }
     }
 
-    template<class _BranIter, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
+    template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
     void swap_bran(_BranIter _First1, _BranIter _Last1, _BranIter _First2) {
         // trao doi cac nhanh [_First1, _Last1) voi [_First2, ...)
         if (_First1 == _Last1) {
@@ -2865,7 +2863,7 @@ public:
 
             _Local_swap(_First1, _Last1, _First2);
         } else {
-            auto _Other_cont = static_cast<_Scary_val*>(const_cast<_Container_base12*>(_Other_root._Getcont()));
+            auto _Other_cont = static_cast<_Scary_val*>(const_cast<_STD _Container_base12*>(_Other_root._Getcont()));
             if (_Other_root.bran_size() == 0 || _Other_root._Ptr == _Other_cont->_Myend->parent) {
                 return;
             }
@@ -2991,14 +2989,14 @@ public:
 
     void sort_bran(const_iterator _Root) {
         // sap xep cac nhanh bang gia tri cac nut dau tien cua cac nhanh, su dung toan tu <
-        sort_bran(_Root, less<>());
+        sort_bran(_Root, _STD less<>());
     }
 
     template<
         class _BranIter, class _Pr, enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0>
     void sort_bran(_BranIter _First, _BranIter _Last, _Pr _Pred) {
         // sap xep cac nhanh trong [_First, _Last) bang gia tri cac nut dau tien cua cac nhanh, su dung _Pred 
-        _Adl_verify_range(_First, _Last);
+        _STD _Adl_verify_range(_First, _Last);
         const auto _Myroot = _First.get_root();
 
 #if _ITERATOR_DEBUG_LEVEL == 2
@@ -3016,12 +3014,12 @@ public:
     template<class _BranIter>
     void sort_bran(_BranIter _First, _BranIter _Last) {
         // sap xep cac nhanh trong [_First, _Last) bang gia tri cac nut dau tien cua cac nhanh, su dung toan tu < 
-        sort_bran(_First, _Last, less<>());
+        sort_bran(_First, _Last, _STD less<>());
     }
 
     void swap(unbalanced_tree& _Right) noexcept /* strengthened */ {
         if (this != _STD addressof(_Right)) {
-            _Pocs(_Getal(), _Right._Getal());
+            _STD _Pocs(_Getal(), _Right._Getal());
             _Swap_val(_Right);
         }
     }
@@ -3141,8 +3139,8 @@ public:
     }
 
     _NODISCARD size_type max_size() const noexcept {
-        return _Min_value(
-            static_cast<size_type>((numeric_limits<difference_type>::max)()), _Alnode_traits::max_size(_Getal()));
+        return _STD _Min_value(
+            static_cast<size_type>((_STD numeric_limits<difference_type>::max)()), _Alnode_traits::max_size(_Getal()));
     }
 
     _NODISCARD bool empty() const noexcept {
@@ -3159,7 +3157,7 @@ private:
         // _Container_proxy_ptr<_Alnode> = _Container_proxy_ptr12<allocator<_Container_proxy>>
         // khoi tao _Proxy de cap phat _Myproxy(uy quyen) cho container
         auto&& _Alproxy = _GET_PROXY_ALLOCATOR(_Alnode, _Getal()); 
-        _Container_proxy_ptr<_Alnode> _Proxy(_Alproxy, *_Get_scary());  
+        _STD _Container_proxy_ptr<_Alnode> _Proxy(_Alproxy, *_Get_scary());
         _Get_scary()->_Myroot              = _Node::_Buyroot(_Getal());
         _Get_scary()->_Myend               = _Node::_Buyend(_Getal());
         _Get_scary()->_Myroot->branches[0] = _Get_scary()->_Myend;
@@ -3200,7 +3198,7 @@ private:
         return _STD addressof(_Mypair._Myval2);
     }
 
-    _Compressed_pair<_Alnode, _Scary_val> _Mypair;
+    _STD _Compressed_pair<_Alnode, _Scary_val> _Mypair;
 };
 // unbalanced_tree
 template <class _Ty, class _Alloc>
@@ -3213,9 +3211,9 @@ _NODISCARD bool operator==(const unbalanced_tree<_Ty, _Alloc>& _Left, const unba
     if (_Left.size() != _Right.size()) {
         return false;
     }
-    auto _UFirst1      = _Get_unwrapped(_Left.begin());
-    const auto _ULast1 = _Get_unwrapped(_Left.begin());
-    auto _UFirst2      = _Get_unwrapped(_Right.begin());
+    auto _UFirst1      = _STD _Get_unwrapped(_Left.begin());
+    const auto _ULast1 = _STD _Get_unwrapped(_Left.begin());
+    auto _UFirst2      = _STD _Get_unwrapped(_Right.begin());
     for (; _UFirst1 != _ULast1; ++_UFirst1, ++_UFirst2) {
         if ((*_UFirst1 != *_UFirst2) || (_UFirst1->branpos != _UFirst2->branpos)) {
             return false;
