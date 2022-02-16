@@ -273,7 +273,7 @@ _NODISCARD constexpr typename _Utree_branch_iterator<_Utree_iter>::pointer _Get_
 }
 
 // TEMPLATE CLASS _Utree_unchecked_const_iterator  
-template<class _MyUtree, class _Base = std::_Iterator_base0>
+template<class _MyUtree, class _Base = _STD _Iterator_base0>
 class _Utree_unchecked_const_iterator : public _Base {
 public:
 	using iterator_category = _STD bidirectional_iterator_tag;
@@ -301,7 +301,7 @@ public:
     }
 
     _NODISCARD pointer operator->() const {
-        return pointer_traits<pointer>::pointer_to(**this);
+        return _STD pointer_traits<pointer>::pointer_to(**this);
     }
 
     _Utree_unchecked_const_iterator& operator++() {
@@ -348,12 +348,12 @@ public:
         return !(*this == _Right);
     }
 
-    template<class _Iter, enable_if_t<is_integral_v<_Iter_value_t<_Iter>>, int> = 0>
+    template<class _Iter, _STD enable_if_t<_STD is_integral_v<_STD _Iter_value_t<_Iter>>, int> = 0>
     _Utree_unchecked_const_iterator& _To_branch_unchecked(_Iter _First, _Iter _Last) { 
         // di chuyen iterator qua tung vi tri nhanh trong [_First, _Last) 
-        auto _UFirst = _Get_unwrapped(_First);
-        auto _ULast  = _Get_unwrapped(_Last);
-        _Adl_verify_range(_UFirst, _ULast);
+        auto _UFirst = _STD _Get_unwrapped(_First);
+        auto _ULast  = _STD _Get_unwrapped(_Last);
+        _STD _Adl_verify_range(_UFirst, _ULast);
 
         while (_UFirst != _ULast) {
             _Ptr = _Ptr->branches[static_cast<branch_size_t>(*_UFirst)];
@@ -362,7 +362,7 @@ public:
         return *this;
     }
 
-    _Utree_unchecked_const_iterator& _To_branch_unchecked(initializer_list<branch_size_t> _Iloc) {
+    _Utree_unchecked_const_iterator& _To_branch_unchecked(_STD initializer_list<branch_size_t> _Iloc) {
         return _To_branch_unchecked(_Iloc.begin(), _Iloc.end());
     }
 
@@ -473,7 +473,7 @@ public:
     }
 
     _NODISCARD pointer operator->() const {
-        return pointer_traits<pointer>::pointer_to(**this);
+        return _STD pointer_traits<pointer>::pointer_to(**this);
     }
 
     _Utree_unchecked_iterator& operator++() {
@@ -565,9 +565,9 @@ public:
 
 // TEMPLATE CLASS _Utree_const_iterator
 template<class _MyUtree>
-class _Utree_const_iterator : public _Utree_unchecked_const_iterator<_MyUtree, std::_Iterator_base> {
+class _Utree_const_iterator : public _Utree_unchecked_const_iterator<_MyUtree, _STD _Iterator_base> {
 public:
-    using _Mybase           = _Utree_unchecked_const_iterator<_MyUtree, std::_Iterator_base>;
+    using _Mybase           = _Utree_unchecked_const_iterator<_MyUtree, _STD _Iterator_base>;
     using iterator_category = _STD bidirectional_iterator_tag;
 
     using _Nodeptr        = typename _MyUtree::_Nodeptr;
@@ -1823,7 +1823,7 @@ private:
             auto&& _Alproxy       = _GET_PROXY_ALLOCATOR(_Alnode, _Al);
             auto& _Right_al       = _Right._Getal();
             auto&& _Right_alproxy = _GET_PROXY_ALLOCATOR(_Alnode, _Right_al);
-            _Container_proxy_ptr<_Alty> _Proxy(_Right_alproxy, _Leave_proxy_unbound{});
+            _STD _Container_proxy_ptr<_Alty> _Proxy(_Right_alproxy, _STD _Leave_proxy_unbound{});
             auto _Right_al_non_const = _Right_al;
             auto _Newroot            = _Node::_Buyroot(_Right_al_non_const, _Right._Get_scary()->_Myroot.branches.size());
             auto _Newend             = _Node::_Buyend(_Right_al_non_const);
@@ -1945,8 +1945,7 @@ public:
 #endif // _ITERATOR_DEBUG_LEVEL == 2 
             }
             _Local_transfer(_First, _Last, _Dest);
-        }
-        else {
+        } else {
             auto _Other_cont = static_cast<_Scary_val*>(const_cast<_STD _Container_base12*>(_To._Getcont()));
             if (_To._Ptr == _Other_cont->_Myend->parent) {
 #if _ITERATOR_DEBUG_LEVEL == 2
@@ -2297,7 +2296,7 @@ public:
     }
 
     template<class _BranIter, _STD enable_if_t<_Is_bran_iter<_BranIter, iterator> || _Is_bran_iter<_BranIter, const_iterator>, int> = 0,
-        class _Iter, _STD  enable_if_t<_STD _Is_iterator_v<_Iter> && _STD is_same_v<_Iter_value_t<_Iter>, value_type>, int> = 0>
+        class _Iter, _STD  enable_if_t<_STD _Is_iterator_v<_Iter> && _STD is_same_v<_STD _Iter_value_t<_Iter>, value_type>, int> = 0>
     iterator graft(_BranIter _Branch, _Iter _First, _Iter _Last) { // tao mot nhanh [_First, _Last) moi = branch_iterator
         auto _Myroot           = static_cast<const_iterator>(_Branch.get_root());
         branch_size_t _Branpos = static_cast<branch_size_t>(
